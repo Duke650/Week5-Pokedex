@@ -1,0 +1,98 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    color: antiquewhite;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100dvh;
+    background: linear-gradient(to bottom, #1a1a1a, #444444);
+}
+
+.search-container {
+    margin-top: 20px;
+    display: flex;
+    gap: .5em;
+    flex-direction: column;
+}
+
+.pokedex {
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    margin-top: 10em;
+    max-width: 20%;
+    border: 3px solid rgb(175, 175, 175);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    gap: 3em;
+}
+
+.ability {
+    display: flex;
+    margin-top: 20px;
+}
+
+img {
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}
+
+input {
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    color: black;
+}
+
+input:focus {
+    outline: none;
+    padding: 10px;
+    transition: 300ms;
+}
+
+input:not(:focus) {
+    padding: 5px;
+    transition: 300ms;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+button {
+    width: 50%;
+    align-self: center;
+    cursor: pointer;
+    padding: 7px;
+    border-radius: 10px;
+    color: black;
+    font-weight: bold;
+    background-color: #15ff00;
+    border: none;
+}
+
+button:hover {
+    background-color: #15ff0085;
+    transform: translateY(3px);
+    transition: 400ms;
+    box-shadow: 0 2px 2px #15ff00;
+}

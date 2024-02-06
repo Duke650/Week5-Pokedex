@@ -1,0 +1,47 @@
+{%extends "base.html"%}
+
+{%block title%} Poke-Search {%endblock%}
+<!-- # pokemon properties to include:
+#                 pokemon name
+#        from the stats section:
+#                  base stat for hp
+#                  base stat for defense
+#                  base stat for attack
+#        from the sprites section:
+#                  front_shiny (URL to the image) or any other image you like more 
+#        from the abilities section:
+#                  At Least One Ability
+# and any other properties you might find that interest you. -->
+{%block styles%}
+<link rel="stylesheet" href="../static/styles/pokeSearch.css">
+{%endblock%}
+{%block content%}
+<div class="container">
+    <div class="search-container">
+        <h2 class="pokedex">Pokedex</h2>
+        <form method="POST" class="form-container">
+            <label for="name"></label>
+            <input type="text" id="name" name="name" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    {% if info %}
+        <div class="card">
+            <div class="top">
+                <h3>{{info['name']|capitalize}}</h3>
+                <p>{{info['stats'][0]['base_stat']}} HP</p>
+            </div>
+            <img src="{{info['sprites']['front_shiny']}}" alt="Poke_Image" height="250">
+            <div class="stats">
+                <p>{{info['stats'][1]['base_stat']}} Att</p>
+                <p>{{info['stats'][2]['base_stat']}} Def</p>
+            </div>
+            <div class="ability">
+                <span class="ability-name"><strong>{{info['abilities'][0]['ability']['name']|capitalize}}:</strong> {{abilityInfo['effect_entries'][1]['effect']}}</span>
+            </div>
+        </div>
+    {%endif%}
+</div>
+
+
+{%endblock%}
