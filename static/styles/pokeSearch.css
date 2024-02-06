@@ -50,8 +50,18 @@
 }
 
 img {
+    margin: 0 auto;
+    height: 200px;
+    width: 200px;
+}
+
+.img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-top: 1px solid white;
     border-bottom: 1px solid white;
+    margin: 5px 0px;
 }
 
 input {
@@ -69,7 +79,7 @@ input:focus {
 
 input:not(:focus) {
     padding: 5px;
-    transition: 300ms;
+    transition: 100ms;
 }
 
 .form-container {

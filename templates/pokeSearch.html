@@ -31,7 +31,9 @@
                 <h3>{{info['name']|capitalize}}</h3>
                 <p>{{info['stats'][0]['base_stat']}} HP</p>
             </div>
-            <img src="{{info['sprites']['front_shiny']}}" alt="Poke_Image" height="250">
+            <div class="img-container">
+                <img src="{{info['sprites']['front_shiny']}}" alt="Poke_Image" height="100">
+            </div>
             <div class="stats">
                 <p>{{info['stats'][1]['base_stat']}} Att</p>
                 <p>{{info['stats'][2]['base_stat']}} Def</p>

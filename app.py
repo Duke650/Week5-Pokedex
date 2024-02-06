@@ -11,6 +11,8 @@ from flask import Flask, request, render_template
 
 
 app = Flask(__name__)
+if __name__ == "__main__":
+    app.run(debug=True)
 
 @app.route("/")
 def home():
@@ -26,7 +28,7 @@ def fetchPokeInfo(pokeName):
         abilityData = abilityResponse.json()
         return [data, abilityData]
     else:
-        return "An Error has occured. Please try again..."
+        return None, "Oops! Seems this Pokemon is not in your Pokedex. Please try again..."
 
 
 
@@ -39,7 +41,6 @@ def getPokeInfo():
 def addPokeInfo():
     name = request.form.get("name")
     info = fetchPokeInfo(name)
-    print(info)
     return render_template("pokeSearch.html", info=info[0], abilityInfo=info[1])
 
         
