@@ -27,7 +27,6 @@ def getPokeInfo():
     form = SearchPokemon()
     if form.validate_on_submit() and request.method == "POST":
         name = request.form.get("name")
-        print("IN THE FORM")
         info = fetchPokeInfo(name)
         defaultInfo = info[0]
         abilityInfo = info[1]
