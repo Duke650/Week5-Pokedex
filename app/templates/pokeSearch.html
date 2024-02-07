@@ -20,26 +20,26 @@
     <div class="search-container">
         <h2 class="pokedex">Pokedex</h2>
         <form method="POST" class="form-container">
-            <label for="name"></label>
-            <input type="text" id="name" name="name" placeholder="Search...">
-            <button type="submit">Search</button>
+            {{form.hidden_tag()}}
+            {{ form.name(size=32, placeholder="Search...") }}
+            {{ form.submit(class="form-btn") }}
         </form>
     </div>
-    {% if info %}
+    {% if defaultInfo %}
         <div class="card">
             <div class="top">
-                <h3>{{info['name']|capitalize}}</h3>
-                <p>{{info['stats'][0]['base_stat']}} HP</p>
+                <h3>{{defaultInfo['name']|capitalize}}</h3>
+                <p>{{defaultInfo['stats'][0]['base_stat']}} HP</p>
             </div>
             <div class="img-container">
-                <img src="{{info['sprites']['front_shiny']}}" alt="Poke_Image" height="100">
+                <img src="{{defaultInfo['sprites']['front_shiny']}}" alt="Poke_Image" height="100">
             </div>
             <div class="stats">
-                <p>{{info['stats'][1]['base_stat']}} Att</p>
-                <p>{{info['stats'][2]['base_stat']}} Def</p>
+                <p>{{defaultInfo['stats'][1]['base_stat']}} Att</p>
+                <p>{{defaultInfo['stats'][2]['base_stat']}} Def</p>
             </div>
             <div class="ability">
-                <span class="ability-name"><strong>{{info['abilities'][0]['ability']['name']|capitalize}}:</strong> {{abilityInfo['effect_entries'][1]['effect']}}</span>
+                <span class="ability-name"><strong>{{defaultInfo['abilities'][0]['ability']['name']|capitalize}}:</strong> {{abilityInfo['effect_entries'][1]['effect']}}</span>
             </div>
         </div>
     {%endif%}
