@@ -1,0 +1,22 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    color: antiquewhite;
+}
+
+.link-container {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    margin-top: .5em;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgba(250, 235, 215, 0.767);
+    transition: 300ms;
+}

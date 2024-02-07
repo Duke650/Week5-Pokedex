@@ -5,12 +5,15 @@
     color: antiquewhite;
 }
 
+body {
+    background: linear-gradient(to bottom, #1a1a1a, #444444);
+}
+
 .container {
     display: flex;
     align-items: center;
     flex-direction: column;
     height: 100dvh;
-    background: linear-gradient(to bottom, #1a1a1a, #444444);
 }
 
 .search-container {

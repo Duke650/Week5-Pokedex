@@ -5,7 +5,7 @@ from .forms import SearchPokemon
 
 @app.route("/")
 def home():
-    return "<p>Welcome!</p>"
+    return render_template("home.html")
 
 def fetchPokeInfo(pokeName):
     url = f"https://pokeapi.co/api/v2/pokemon/{pokeName}"
