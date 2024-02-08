@@ -1,0 +1,25 @@
+{%extends "base.html"%}
+
+{%block title%} Log In {%endblock%}
+
+{%block styles %}
+<link rel="stylesheet" href="../static/styles/nav-bar.css">
+<link rel="stylesheet" href="../static/styles/signup.css">
+<link rel="stylesheet" href="../static/styles/base.css">
+{%endblock%}
+
+{%block content%}
+{% include './includes/nav-bar.html' %}
+<div>
+    <h1>Log In</h1>
+    <div class="form-container">
+        <form method="POST">
+            {{loginForm.hidden_tag()}}
+            {{loginForm.email(placeholder="Email...")}}
+            {{loginForm.password(placeholder="Password...")}}
+            {{loginForm.submit(class="submit-btn")}}
+        </form>
+    </div>  
+</div>
+
+{%endblock%}

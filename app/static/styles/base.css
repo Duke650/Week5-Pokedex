@@ -5,6 +5,11 @@
     color: antiquewhite;
 }
 
+body {
+    background: linear-gradient(to bottom, #1a1a1a, #444444);
+    height: 100dvh;
+}
+
 .link-container {
     display: flex;
     justify-content: center;
@@ -19,4 +24,8 @@ a {
 a:hover {
     color: rgba(250, 235, 215, 0.767);
     transition: 300ms;
+}
+h1 {
+    text-align: center;
+    margin-top: 1em;
 }
