@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 from app import app
 from .forms import SearchPokemon, Login, Signup
 
@@ -43,16 +43,19 @@ def getPokeInfo():
         return render_template("pokeSearch.html", form=form, defaultInfo=defaultInfo, abilityInfo=abilityInfo)
     return render_template("pokeSearch.html", form=form)
 
-@app.route("/poke-info/<id>", methods=["GET","POST"])
-def getPokeInfoById(id):
+@app.route("/poke-info/<id>/<direction>", methods=["GET","POST"])
+def getPokeInfoById(id, direction):
+    print("-----METHOD-----", request.method)
+    newDirection = 1 if direction == 'next' else -1 
     form = SearchPokemon()
-    if form.validate_on_submit() and request.method == "POST":
-        name = request.form.get("name")
-        info = fetchPokeInfo(name)
-        defaultInfo = info[0]
-        abilityInfo = info[1]
-        return render_template("pokeSearch.html", form=form, defaultInfo=defaultInfo, abilityInfo=abilityInfo)
-    return render_template("pokeSearch.html", form=form)
+    # if form.validate_on_submit() and request.method == "POST":
+    #     name = request.form.get("name")
+    info = fetchPokeInfo(str(int(id) + newDirection))
+    print("INFO =>", info)
+    defaultInfo = info[0]
+    abilityInfo = info[1]
+    return render_template("pokeSearch.html", form=form, defaultInfo=defaultInfo, abilityInfo=abilityInfo)
+    # return render_template("pokeSearch.html", form=form)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

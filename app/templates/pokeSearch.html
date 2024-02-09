@@ -13,9 +13,8 @@
 #                  At Least One Ability
 # and any other properties you might find that interest you. -->
 {%block styles%}
-<link rel="stylesheet" href="../static/styles/pokeSearch.css">
-<link rel="stylesheet" href="../static/styles/nav-bar.css">
-<link rel="stylesheet" href="../static/styles/base.css">
+<link rel="stylesheet" href="{{url_for('static', filename='styles/pokeSearch.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='styles/base.css')}}">
 {%endblock%}
 {%block content%}
 {% include './includes/nav-bar.html' %}
@@ -29,6 +28,8 @@
         </form>
     </div>
         {% if defaultInfo %}
+        <div class="card-container">
+            <a href="{{url_for('getPokeInfoById', id=defaultInfo['id'], direction='previous')}}" class="arrow"><=</a>
             <div class="card">
                 <div class="top">
                     <h3>{{defaultInfo['name']|capitalize}}</h3>
@@ -45,6 +46,8 @@
                     <span class="ability-name"><strong>{{defaultInfo['abilities'][0]['ability']['name']|capitalize}}:</strong> {{abilityInfo['effect_entries'][1]['effect']}}</span>
                 </div>
             </div>
+            <a href="{{url_for('getPokeInfoById', id=defaultInfo['id'], direction='next')}}" class="arrow">=></a>
+        </div>
         {%endif%}
 </div>
 
