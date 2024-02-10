@@ -3,7 +3,20 @@
     <div class="link-container">
         <a href="{{url_for('home')}}">Home</a>
         <a href="{{url_for('getPokeInfo')}}">Pokedex</a>
-        <a href="{{url_for('login')}}">Login</a>
-        <a href="{{url_for('signup')}}">Sign Up</a>
+        {% if current_user.is_anonymous %}
+            <a href="{{url_for('login')}}">Login</a>
+            <a href="{{url_for('signup')}}">Sign Up</a>
+        {% else %}
+            <a href="{{url_for('logout')}}" class="logout">Log Out</a>
+        {% endif %}
     </div>
 </nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+        <p class="{{ category }} flash"> {{ message }}</p>
+    {% endfor %}
+    
+    {% endif %}
+{% endwith %}

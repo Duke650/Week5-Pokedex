@@ -25,6 +25,8 @@ form {
 input {
     padding: 5px;
     border-radius: 10px;
+    background-color: white;
+    color: black;
 }
 
 input:focus {

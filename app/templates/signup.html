@@ -3,9 +3,8 @@
 {%block title%} Sign Up {%endblock%}
 
 {%block styles %}
-<link rel="stylesheet" href="../static/styles/nav-bar.css">
-<link rel="stylesheet" href="../static/styles/signup.css">
-<link rel="stylesheet" href="../static/styles/base.css">
+<link rel="stylesheet" href="{{url_for('static', filename='styles/signup.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='styles/base.css')}}">
 {%endblock%}
 
 {%block content%}
@@ -15,7 +14,7 @@
     <div class="form-container">
         <form method="POST">
             {{signupForm.hidden_tag()}}
-            {{signupForm.username(placeholder="Username...")}}
+            {{signupForm.username(placeholder="Username...", class="input-box")}}
             {{signupForm.email(placeholder="Email...")}}
             {{signupForm.password(placeholder="Password...")}}
             {{signupForm.submit(class="submit-btn")}}

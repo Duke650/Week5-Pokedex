@@ -47,6 +47,15 @@ body {
     margin-top: 25%;
     margin: 3em;
     cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid antiquewhite;
+    padding: 10px;
+}
+
+.arrow:hover {
+    background-color: #1a1a1a9a;
+    padding: 13px;
+    transition: 300ms;
 }
 
 .top {
