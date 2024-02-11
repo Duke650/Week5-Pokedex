@@ -2,11 +2,13 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    color: antiquewhite;
+    color: black;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Cabin', sans-serif;
 }
 
 body {
-    background: linear-gradient(to bottom, #1a1a1a, #444444);
+    background-image: url('../img/forest.jpg');
+    background-size: cover;
     height: 100dvh;
 }
 
@@ -19,6 +21,7 @@ body {
 
 a {
     text-decoration: none;
+    font-weight: bold;
 }
 
 a:hover {

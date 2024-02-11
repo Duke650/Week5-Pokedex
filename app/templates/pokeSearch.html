@@ -37,11 +37,11 @@
                     <p>{{defaultInfo['stats'][0]['base_stat']}} HP</p>
                 </div>
                 <div class="img-container">
-                    <img src="{{defaultInfo['sprites']['front_shiny']}}" alt="Poke_Image" height="100">
+                    <img src="{{defaultInfo['sprites']['versions']['generation-v']['black-white']['animated']['front_shiny']}}" alt="Poke_Image" height="25">
                 </div>
                 <div class="stats">
-                    <p>{{defaultInfo['stats'][1]['base_stat']}} Att</p>
-                    <p>{{defaultInfo['stats'][2]['base_stat']}} Def</p>
+                    <p class="attack">{{defaultInfo['stats'][1]['base_stat']}} Att</p>
+                    <p class="defence">{{defaultInfo['stats'][2]['base_stat']}} Def</p>
                 </div>
                 <div class="ability">
                     <span class="ability-name"><strong>{{defaultInfo['abilities'][0]['ability']['name']|capitalize}}:</strong> {{abilityInfo['effect_entries'][1]['effect']}}</span>
