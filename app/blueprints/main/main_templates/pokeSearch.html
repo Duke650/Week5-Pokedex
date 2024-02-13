@@ -30,7 +30,7 @@
     </div>
         {% if defaultInfo %}
         <div class="card-container">
-            <a href="{{url_for('getPokeInfoById', id=defaultInfo['id'], direction='previous')}}"><i class="fa-solid fa-arrow-left arrow"></i></a>
+            <a href="{{url_for('main.getPokeInfoById', id=defaultInfo['id'], direction='previous')}}"><i class="fa-solid fa-arrow-left arrow"></i></a>
             <div class="card">
                 <div class="top">
                     <h3>{{defaultInfo['name']|capitalize}}</h3>
@@ -47,7 +47,7 @@
                     <span class="ability-name"><strong>{{defaultInfo['abilities'][0]['ability']['name']|capitalize}}:</strong> {{abilityInfo['effect_entries'][1]['effect']}}</span>
                 </div>
             </div>
-            <a href="{{url_for('getPokeInfoById', id=defaultInfo['id'], direction='next')}}"><i class="fa-solid fa-arrow-right arrow"></i></a>
+            <a href="{{url_for('main.getPokeInfoById', id=defaultInfo['id'], direction='next')}}"><i class="fa-solid fa-arrow-right arrow"></i></a>
             <a href=""></a>
         </div>
         {%endif%}

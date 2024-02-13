@@ -1,7 +1,7 @@
 from flask import Flask
 from config import Config
 from flask_login import LoginManager
-from app.models import User, db
+from app.models import db, User
 from flask_migrate import Migrate
 
 app = Flask(__name__)
@@ -13,9 +13,12 @@ login_manager.init_app(app)
 db.init_app(app)
 migrate = Migrate(app, db)
 
+from app.blueprints.auth import auth
+from app.blueprints.main import main
+
+app.register_blueprint(auth)
+app.register_blueprint(main)
+
 @login_manager.user_loader
 def loadUser(userID):
     return User.query.get(userID)
-
-
-from app import routes
