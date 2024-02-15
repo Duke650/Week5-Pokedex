@@ -2,7 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    color: black:
+    color: black;
     font-family: 'Gill Sans', 'Gill Sans MT', 'Cabin', sans-serif;
 }
 
@@ -10,7 +10,7 @@ body {
     background: linear-gradient(to bottom, #1a1a1a, #444444);
 }
 
-.container {
+.my-container {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -30,14 +30,13 @@ body {
 }
 
 .card {
-    max-width: 30%;
-    border: 10px solid rgb(175, 175, 175);
-    border-radius: 10px;
+    border-radius: 0px !important;
     padding: 20px;
-    overflow: auto;
-    margin: auto 0;
-    background-image: url("../img/Pokemon_Card_background.jpg");
-    background-size: cover;
+    background-color: #d3c2b8;
+    background-image: linear-gradient(62deg, #d3c2b8 0%, #ebe3d2 50%, #ffffff 100%) !important;
+
+    border: 6px solid rgb(233, 183, 46) !important;
+    width: 400px;
 }
 
 .card-container {
@@ -65,7 +64,6 @@ body {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-    padding: 0 25px;
 }
 
 .stats {
@@ -79,19 +77,19 @@ body {
     margin-top: 20px;
 }
 
+
 img {
-    margin: 0 auto;
-    height: 200px;
-    width: 200px;
+    /* margin: 0 auto; */
+    min-height: 200px;
 }
 
 .img-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
     margin: 5px 0px;
+    border: 3px solid rgb(233, 183, 46);
+    background-color: white;
 }
 
 input {
@@ -138,12 +136,12 @@ input:not(:focus) {
 }
 
 .attack {
-    color: red;
-    font-weight: bold;
+    color: red !important;
+    font-weight: bold !important;
 }
 
 .defence {
-    color: blue;
-    font-weight: bold;
+    color: blue !important;
+    font-weight: bold !important;
 }
 

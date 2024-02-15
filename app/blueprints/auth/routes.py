@@ -13,11 +13,11 @@ def login():
         password = loginForm.password.data
         user = User.query.filter(User.email == email).first()
         if user and check_password_hash(user.password, password):
-            flash(f"Welcome Back {user.username}!", 'info')
+            flash(f"Welcome Back {user.username}!", 'success')
             login_user(user)
             return redirect(url_for('main.home'))
         else:
-            flash('Invalid username email or password...', 'warning')
+            flash('Invalid username email or password...', 'danger')
             return render_template("login.html", loginForm=loginForm)
     else:
         return render_template("login.html", loginForm=loginForm)
@@ -41,4 +41,5 @@ def signup():
 @login_required
 def logout():
     logout_user()
+    flash("Successfully Logged Out!", "success")
     return redirect(url_for('auth.login'))

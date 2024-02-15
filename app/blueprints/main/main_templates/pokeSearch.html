@@ -19,7 +19,7 @@
 {%endblock%}
 {%block content%}
 {% include './includes/nav-bar.html' %}
-<div class="container">
+<div class="my-container">
     <div class="search-container">
         <h2 class="pokedex">Pokedex</h2>
         <form method="POST" class="form-container">
@@ -37,19 +37,19 @@
                     <p>{{defaultInfo['stats'][0]['base_stat']}} HP</p>
                 </div>
                 <div class="img-container">
-                    <img src="{{defaultInfo['sprites']['versions']['generation-v']['black-white']['animated']['front_shiny']}}" alt="Poke_Image" height="25">
+                    <img src="{{img_url}}" alt="Poke_Image" height="25">
                 </div>
                 <div class="stats">
                     <p class="attack">{{defaultInfo['stats'][1]['base_stat']}} Att</p>
                     <p class="defence">{{defaultInfo['stats'][2]['base_stat']}} Def</p>
                 </div>
                 <div class="ability">
-                    <span class="ability-name"><strong>{{defaultInfo['abilities'][0]['ability']['name']|capitalize}}:</strong> {{abilityInfo['effect_entries'][1]['effect']}}</span>
+                    <span class="ability-name"><strong>{{defaultInfo['abilities'][0]['ability']['name']|capitalize}}:</strong> {{abilityInfo['flavor_text_entries'][0]['flavor_text']}}</span>
                 </div>
             </div>
             <a href="{{url_for('main.getPokeInfoById', id=defaultInfo['id'], direction='next')}}"><i class="fa-solid fa-arrow-right arrow"></i></a>
-            <a href=""></a>
         </div>
+        <a href="{{url_for('main.addToPokedex', pokemonID=defaultInfo['id'])}}">Catch Pokemon</a>
         {%endif%}
 </div>
 
