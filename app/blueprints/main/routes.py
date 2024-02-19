@@ -148,10 +148,10 @@ def battle():
     randomUserID = random.randint(1, userCount)
     randomUser = User.query.get(randomUserID)
     session['randomUserID'] = randomUserID
+    
     randomUsername = randomUser.username
     currentUsername = current_user.username
-    print("USER ID!!!", current_user.id)
-    print("RANDOM USER ID!!!", session['randomUserID'])
+    session['randomUsername'] = randomUsername
     if randomUser.id != current_user.id:
         randomUserPokemon = randomUser.pokemon.all()
         
@@ -230,41 +230,37 @@ def getPokeInfoById(listOfPokemon, id):
 def attack(attackerID, defenderID):
     playerPokeData = session['playerPokeData']
     opponentPokeData = session['opponentPokeData']
-    print("MY SQUAD!!!! ===>>>", playerPokeData)
-    print("MY OPPONENT SQUARDDD =>>>>>", opponentPokeData)
-
+    mainUser = User.query.get(current_user.id)
+    mainUsername = mainUser.username
+    print("MAIN USER", mainUsername)
+    print("RANDOM USERNAME!!! =>>", session['randomUsername'])
     attacker = {}
     defender = {}
-    for pokemon in playerPokeData: 
-        
+    for pokemon in playerPokeData:
         if pokemon['id'] == int(attackerID):
             attacker = pokemon
     for pokemon in opponentPokeData:
-        print("POKEEEEEEMON", pokemon['id'])
-        print("DEFENDER ID", defenderID)
         if pokemon['id'] == int(defenderID):
             defender = pokemon
-
-    print("ATTACKER", attacker)
-    print("DEFENDER", defender)
-    print("OPPONENT====.", session['opponentPokeData'])
-    
-
-
     if attacker is None or defender is None:
         flash("Attacker or Defender Pokemon not found.")
         return redirect(url_for('main.battle'))
 
-
     print("ORIGINAL HP =>", defender['base_hp'])
-    defender['base_hp'] -= attacker['base_attack'] // defender['base_defence'] * 50
+    defender['base_hp'] -= attacker['base_attack'] // defender['base_defence'] * 20
+    attacker['base_hp'] -= defender['base_attack'] // attacker['base_defence'] * 20
     if defender['base_hp'] <= 0:
         opponentPokeData = [pokemon for pokemon in opponentPokeData if pokemon['id'] != defender['id']]
         print("NEW HP =>>", defender['base_hp'])
+    if attacker['base_hp'] <= 0:
+        playerPokeData = [pokemon for pokemon in playerPokeData if pokemon['id'] != attacker['id']]
 
     session['opponentPokeData'] = opponentPokeData
+    session['playerPokeData'] = playerPokeData
+    print("CURRENT OPPONENT POKEMON", opponentPokeData)
 
-    return render_template("currentFight.html")
+
+    return render_template("currentFight.html", mainUsername=mainUsername, )
     
     # store results in battle results table
     # display rest of pokemon expect losers

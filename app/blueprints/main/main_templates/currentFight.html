@@ -13,13 +13,11 @@
 {%block content%}
 {% include './includes/nav-bar.html' %}
 {% if session['playerPokeData'] %}
-<h1>{{randomUserID}}</h1>
-<h1>{{currentUsername}}</h1>
+<h1>{{mainUsername}}</h1>
 <div class="all-pokemon">
 {% for pokemon in session['playerPokeData'] %}
 <div class="card-container" onclick="selectPokemon(event, '{{ pokemon['id']}}')">
     
-    <div>{{ pokemon['id'] }}</div>
     <div class="card">
         <div class="top">
             <strong><p class="name">{{pokemon['name']|capitalize}}</p></strong>
@@ -36,18 +34,22 @@
             <span class="ability-name"><strong>{{pokemon['ability_name']|capitalize}}:</strong> {{pokemon['ability_description']}}</span>
         </div>
     </div>
-<a href="">Attack</a>
 </div>
 {% endfor %}
 {%endif%}
+{% if not session['playerPokeData'] %}
+    <h1 class="winner">{{session['randomUsername']}} has won!!</h1>
+{% elif not session['opponentPokeData'] %}
+    <h1 class="winner">{{mainUsername}} has won!!</h1>
+{% endif %}
 </div>
-<a href="{{url_for('main.attack', attackerID='ATTACKER_ID', defenderID='DEFENDER_ID')}}" class="battle-btn" id="fight">FIGHT</a>
-<h1>{{ randomUsername }}</h1>
-<div class="all-pokemon">
+<a href="{{url_for('main.attack', attackerID='ATTACKER_ID', defenderID='DEFENDER_ID', cun='currentUsername', oun='randomUsername')}}" class="battle-btn" id="fight">FIGHT</a>
 {% if session['opponentPokeData'] %}
+<h1>{{session['randomUsername']}}</h1>
+<div class="all-pokemon">
+
 {% for pokemon in session['opponentPokeData'] %}
 <div class="card-container" onclick="selectPokemon(event, '{{ pokemon['id']}}')">
-    <div>{{ pokemon['id'] }}</div>
     <div class="card">
         <div class="top">
             <strong><p>{{pokemon['name']|capitalize}}</p></strong>
@@ -84,15 +86,14 @@ function selectPokemon(event, pokemonId) {
         attackPokemon(attackerId, pokemonId);
         // Reset attacker selection
         attackerId = null;
-        document.querySelectorAll('.card').forEach(card => card.classList.remove('attacker'));
+        document.querySelectorAll('.card-container').forEach(cardContainer => cardContainer.classList.remove('attacker'));
     }
 }
 
 function attackPokemon(attackerId, targetId) {
-    console.log('attackerId :>> ', attackerId);
     console.log('targetId :>> ', targetId);
     const fightAnchor = document.getElementById("fight");
-    fightAnchor.href = `/fight/${attackerId}/${targetId}`;
+    fightAnchor.href = `/attack/${attackerId}/${targetId}`;
 
         // Handle the response 
     

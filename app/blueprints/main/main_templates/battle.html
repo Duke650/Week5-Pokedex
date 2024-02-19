@@ -17,8 +17,6 @@
 <div class="all-pokemon">
 {% for pokemon in allCurrentUserPokemon %}
 <div class="card-container" onclick="selectPokemon(event, '{{ pokemon['id']}}')">
-    
-    <div>{{ pokemon['id'] }}</div>
     <div class="card">
         <div class="top">
             <strong><p class="name">{{pokemon['name']|capitalize}}</p></strong>
@@ -35,7 +33,6 @@
             <span class="ability-name"><strong>{{pokemon['ability_name']|capitalize}}:</strong> {{pokemon['ability_description']}}</span>
         </div>
     </div>
-<a href="">Attack</a>
 </div>
 {% endfor %}
 {%endif%}
@@ -47,7 +44,6 @@
 {% if allRandomUserPokemon %}
 {% for pokemon in allRandomUserPokemon %}
 <div class="card-container" onclick="selectPokemon(event, '{{ pokemon['id']}}')">
-    <div>{{ pokemon['id'] }}</div>
     <div class="card">
         <div class="top">
             <strong><p>{{pokemon['name']|capitalize}}</p></strong>

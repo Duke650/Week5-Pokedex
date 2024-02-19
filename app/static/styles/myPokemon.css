@@ -9,7 +9,7 @@
     border-radius: 0px !important;
     padding: 20px;
     background-color: #d3c2b8;
-    background-image: linear-gradient(62deg, #d3c2b8 0%, #ebe3d2 50%, #ffffff 100%) !important;
+    background-image: linear-gradient(62deg, #d3c2b8 0%, #ebe3d2 50%, #ffffff 100%) ;
     border: 6px solid rgb(233, 183, 46) !important;
     width: 200px;
     display: flex;
@@ -81,4 +81,13 @@ img {
 
 .attacker {
     background-color: red;
+}
+
+.winner {
+    color: green;
+}
+
+.card.attacker {
+    background-color: blue !important;
+    padding: 40px;
 }
