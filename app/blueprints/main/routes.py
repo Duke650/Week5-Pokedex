@@ -1,9 +1,10 @@
 from . import main
 import requests
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, session
 from .forms import SearchPokemon
-from app.models import Pokemon, User, db
+from app.models import Pokemon, User, db, user_pokemon
 from flask_login import current_user, login_required
+import random
 
 
 
@@ -29,13 +30,13 @@ def fetchIdOfPokemon(name):
         print("id =>", id)
         return id
 
-# def fetchAllPokemonOfUser(userID):
 
     
     # ---- ROUTES -----
 @main.route("/")
 def home():
     return render_template("home.html")
+
 
 @main.route("/poke-info", methods=["GET","POST"])
 def getPokeInfo():
@@ -70,15 +71,15 @@ def getPokeInfoById(id, direction):
 
 @main.route("/addToPokedex/<pokemonID>")
 def addToPokedex(pokemonID):
-    print("POKEMONID =>", pokemonID)
     selected_pokemon_data = fetchPokeInfo(pokemonID)
     if selected_pokemon_data:
         selected_pokemon_name = selected_pokemon_data[0]['name']
         print(selected_pokemon_name)
         selected_pokemon = Pokemon.query.filter_by(name=selected_pokemon_name).first()
-        print("SELECTED POKEMON =>>", selected_pokemon)
+
     if not selected_pokemon:
         sprite_img = selected_pokemon_data[0]['sprites']['versions']['generation-v']['black-white']['animated']['front_shiny']
+
         if not sprite_img:
             sprite_img =  selected_pokemon_data[0]['sprites']['front_default']
         name = selected_pokemon_name
@@ -90,24 +91,180 @@ def addToPokedex(pokemonID):
         new_pokemon = Pokemon(name, base_hp, base_attack, base_defence, sprite_img, ability_name, ability_description)
         print(new_pokemon)
         new_pokemon.save()
-        flash(f"You have caught { selected_pokemon_name}!")
-    if selected_pokemon:
-        if current_user.pokemon.filter_by(name=selected_pokemon_name).first():
-            flash(f"{selected_pokemon_name} is already in your Pokedex!")
-        else:
-            current_user.pokemon.append(selected_pokemon)
-            db.session.commit()
-            flash(f"{selected_pokemon_name} is added to your Pokedex")
         
-        
+        selected_pokemon = Pokemon.query.filter_by(name=selected_pokemon_name).first()
+    if len(current_user.pokemon.all()) >= 6:
+        flash("You can only have 6 Pokemon", "warning")
+        return redirect(url_for("main.getPokeInfo"))
+    if current_user.pokemon.filter_by(name=selected_pokemon_name).first():
+        flash(f"{selected_pokemon_name} is already in your Pokedex!", "warning")
+    else:
+        current_user.pokemon.append(selected_pokemon)
+        db.session.commit()
+        flash(f"{selected_pokemon_name} is added to your Pokedex", "success")
+
     return redirect(url_for("main.getPokeInfo"))
 
 
 
+@main.route("/my_pokemon")
+def my_pokemon():
+    user = User.query.get(current_user.id)
+    if user:
+        userPokemon = user.pokemon.all()
+        allUserPokemon = []
+        for pokemon in userPokemon:
+            pokeObj = {
+            'id': pokemon.id,
+            'sprite_img': pokemon.sprite_img,
+            'name': pokemon.name,
+            'base_hp': pokemon.base_hp,
+            'base_attack': pokemon.base_attack,
+            'base_defence': pokemon.base_defence,
+            'ability_name': pokemon.ability_name,
+            'ability_description': pokemon.ability_description
+            }
+            allUserPokemon.append(pokeObj)
+        username = current_user.username
+        return render_template("myPokemon.html", allUserPokemon=allUserPokemon, username=username)
+    else:
+        render_template("myPokemon.html")
+
+@main.route('/release/<pokemonID>')
+def release(pokemonID):
+    user = User.query.get(current_user.id)
+    print("USER =>", user.pokemon.all())
+    if user:
+        selectedPokemon = user.pokemon.filter_by(id = pokemonID).first()
+        if selectedPokemon:
+            db.session.delete(selectedPokemon)
+            db.session.commit()
+            return redirect(url_for("main.my_pokemon"))
+    return redirect(url_for("main.my_pokemon"))
+
+@main.route("/battle")
+def battle():
+    userCount = User.query.count()
+    randomUserID = random.randint(1, userCount)
+    randomUser = User.query.get(randomUserID)
+    session['randomUserID'] = randomUserID
+    randomUsername = randomUser.username
+    currentUsername = current_user.username
+    print("USER ID!!!", current_user.id)
+    print("RANDOM USER ID!!!", session['randomUserID'])
+    if randomUser.id != current_user.id:
+        randomUserPokemon = randomUser.pokemon.all()
+        
+        allRandomUserPokemon = []
+        for pokemon in randomUserPokemon:
+            pokeObj = {
+            'id': pokemon.id,
+            'sprite_img': pokemon.sprite_img,
+            'name': pokemon.name,
+            'base_hp': pokemon.base_hp,
+            'base_attack': pokemon.base_attack,
+            'base_defence': pokemon.base_defence,
+            'ability_name': pokemon.ability_name,
+            'ability_description': pokemon.ability_description
+            }
+            allRandomUserPokemon.append(pokeObj)
+        currentUserPokemon = current_user.pokemon.all()
+        allCurrentUserPokemon = []
+        for pokemon in currentUserPokemon:
+            pokeObj = {
+            'id': pokemon.id,
+            'sprite_img': pokemon.sprite_img,
+            'name': pokemon.name,
+            'base_hp': pokemon.base_hp,
+            'base_attack': pokemon.base_attack,
+            'base_defence': pokemon.base_defence,
+            'ability_name': pokemon.ability_name,
+            'ability_description': pokemon.ability_description
+            }
+            allCurrentUserPokemon.append(pokeObj)
+            session['opponentPokeData'] = allRandomUserPokemon
+            session['playerPokeData'] = allCurrentUserPokemon
+        if allRandomUserPokemon and allCurrentUserPokemon:
+            return render_template("battle.html", allRandomUserPokemon=allRandomUserPokemon, allCurrentUserPokemon=allCurrentUserPokemon, randomUsername=randomUsername, currentUsername=currentUsername, randomUserID=randomUserID)
+
+    return redirect(url_for("main.my_pokemon"))
+
+def getPokeInfoById(listOfPokemon, id):
+    id = int(id)
+    if not listOfPokemon:
+        return "No pokemon found"
+    for poke in listOfPokemon:
+        
+        if poke['id'] == int(id):
+            return poke
+
+    return f"cound not find pokemon with id of {id}"
+
+# def initilizeFight():
+#     # get all poke info
+#     if 'playerPokeData' not in session or 'opponentPokeData' not in session:
+#         print("POKEMON NOT IN SESSION!!!!!")
+#         randomUserID = session['randomUserID']
+#         playerSquad = current_user.pokemon.all()
+#         opponent = User.query.get(randomUserID)
+#         opponentSquad = opponent.pokemon.all()
+#         playerPokeData = []
+#         opponentPokeData = []
+#         for poke in playerSquad:
+#             playerPokeData.append({'id': poke.id, 'name':poke.name, 'base_hp': poke.base_hp, 'base_attack': poke.base_attack, 'base_defence': poke.base_defence, 'ability_name': poke.ability_name, 'ability_description': poke.ability_description, 'sprite_img': poke.sprite_img})
+        
+#         for poke in opponentSquad:
+#             print("OPPONENT POKEMON!!! ==>>>>>", poke)
+#             opponentPokeData.append({'id': poke.id, 'name': poke.name, 'base_hp': poke.base_hp, 'base_attack': poke.base_attack, 'base_defence': poke.base_defence, 'ability_name': poke.ability_name, 'ability_description': poke.ability_description, 'sprite_img': poke.sprite_img})
+
+#         session['playerPokeData'] = playerPokeData
+#         session['opponentPokeData'] = opponentPokeData
+#         return render_template("currentFight.html")
+#     else: 
+#         return "FALED TO START FIGHT"
 
 
+    # calulate changes
 
-# main.route("/my_pokemon")
-# def my_pokemon():
-#     pokemon = Pokemon()
-#     return render_template("myPokemon.html", pokemon=pokemon)
+@main.route("/attack/<attackerID>/<defenderID>")
+def attack(attackerID, defenderID):
+    playerPokeData = session['playerPokeData']
+    opponentPokeData = session['opponentPokeData']
+    print("MY SQUAD!!!! ===>>>", playerPokeData)
+    print("MY OPPONENT SQUARDDD =>>>>>", opponentPokeData)
+
+    attacker = {}
+    defender = {}
+    for pokemon in playerPokeData: 
+        
+        if pokemon['id'] == int(attackerID):
+            attacker = pokemon
+    for pokemon in opponentPokeData:
+        print("POKEEEEEEMON", pokemon['id'])
+        print("DEFENDER ID", defenderID)
+        if pokemon['id'] == int(defenderID):
+            defender = pokemon
+
+    print("ATTACKER", attacker)
+    print("DEFENDER", defender)
+    print("OPPONENT====.", session['opponentPokeData'])
+    
+
+
+    if attacker is None or defender is None:
+        flash("Attacker or Defender Pokemon not found.")
+        return redirect(url_for('main.battle'))
+
+
+    print("ORIGINAL HP =>", defender['base_hp'])
+    defender['base_hp'] -= attacker['base_attack'] // defender['base_defence'] * 50
+    if defender['base_hp'] <= 0:
+        opponentPokeData = [pokemon for pokemon in opponentPokeData if pokemon['id'] != defender['id']]
+        print("NEW HP =>>", defender['base_hp'])
+
+    session['opponentPokeData'] = opponentPokeData
+
+    return render_template("currentFight.html")
+    
+    # store results in battle results table
+    # display rest of pokemon expect losers

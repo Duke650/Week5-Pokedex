@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
     pokemon = db.relationship("Pokemon", 
-                            secondary = user_pokemon,
+                            secondary = "user_pokemon",
                             backref = "my_pokemon",
                             lazy = "dynamic"
                             )
@@ -40,6 +40,14 @@ class Pokemon(db.Model):
     ability_name = db.Column(db.String, nullable=False)
     ability_description = db.Column(db.String, nullable=False)
 
+
+# crate battle result table
+    # id of winner
+    # id of loser
+    # user id maybe
+    
+
+
     def __init__(self, name, base_hp, base_attack, base_defence, sprite_img, ability_name, ability_description):
         self.name = name
         self.base_hp = base_hp
@@ -52,3 +60,4 @@ class Pokemon(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+        

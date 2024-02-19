@@ -1,0 +1,84 @@
+.all-pokemon {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2em;
+}
+
+.card {
+    border-radius: 0px !important;
+    padding: 20px;
+    background-color: #d3c2b8;
+    background-image: linear-gradient(62deg, #d3c2b8 0%, #ebe3d2 50%, #ffffff 100%) !important;
+    border: 6px solid rgb(233, 183, 46) !important;
+    width: 200px;
+    display: flex;
+}
+
+.card-container a {
+    margin: 0 auto;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 2em;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    gap: 3em;
+}
+
+.ability {
+    display: flex;
+    margin-top: 20px;
+}
+
+
+img {
+    /* margin: 0 auto; */
+    min-height: 100px;
+}
+
+.img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 0px;
+    border: 3px solid rgb(233, 183, 46);
+    background-color: white;
+}
+
+.attack {
+    color: red !important;
+    font-weight: bold !important;
+}
+
+.defence {
+    color: blue !important;
+    font-weight: bold !important;
+}
+
+.battle-btn {
+    display: flex;
+    justify-content: center;
+    color: red !important;
+    font-size: 40px;
+}
+
+.name {
+    font-size: 20px;
+}
+
+.attacker {
+    background-color: red;
+}

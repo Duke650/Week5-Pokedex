@@ -3,7 +3,7 @@ from .forms import Login, Signup
 from flask import request, render_template, url_for, redirect, flash
 from flask_login import login_user, logout_user, login_required
 from werkzeug.security import check_password_hash
-from app.models import User
+from app.models import User, db
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
@@ -42,4 +42,5 @@ def signup():
 def logout():
     logout_user()
     flash("Successfully Logged Out!", "success")
+    
     return redirect(url_for('auth.login'))

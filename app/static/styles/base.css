@@ -10,6 +10,7 @@ body {
     background-image: url('../img/forest.jpg');
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     height: 100dvh;
 }
 
@@ -26,8 +27,8 @@ a {
 }
 
 a:hover {
-    color: rgba(250, 235, 215, 0.767);
-    transition: 300ms;
+    color: rgba(250, 235, 215, 0.767) !important;
+    transition: 300ms !important;
 }
 h1 {
     text-align: center;
@@ -42,4 +43,6 @@ h1 {
     color: rgba(252, 84, 84, 0.747);
     transition: 300ms;
 }
+
+
 

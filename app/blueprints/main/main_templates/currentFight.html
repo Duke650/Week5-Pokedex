@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{%block title%} MyPokemon {%endblock%}
+
+
+{%block styles%}
+<link rel="stylesheet" href="{{url_for('static', filename='styles/base.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="{{url_for('static', filename='styles/myPokemon.css')}}">
+{%endblock%}
+
+
+{%block content%}
+{% include './includes/nav-bar.html' %}
+{% if session['playerPokeData'] %}
+<h1>{{randomUserID}}</h1>
+<h1>{{currentUsername}}</h1>
+<div class="all-pokemon">
+{% for pokemon in session['playerPokeData'] %}
+<div class="card-container" onclick="selectPokemon(event, '{{ pokemon['id']}}')">
+    
+    <div>{{ pokemon['id'] }}</div>
+    <div class="card">
+        <div class="top">
+            <strong><p class="name">{{pokemon['name']|capitalize}}</p></strong>
+            <p>{{pokemon['base_hp']}} HP</p>
+        </div>
+        <div class="img-container">
+            <img src="{{pokemon['sprite_img']}}" alt="Poke_Image" height="25">
+        </div>
+        <div class="stats">
+            <p class="attack">{{pokemon['base_attack']}} Att</p>
+            <p class="defence">{{pokemon['base_defence']}} Def</p>
+        </div>
+        <div class="ability">
+            <span class="ability-name"><strong>{{pokemon['ability_name']|capitalize}}:</strong> {{pokemon['ability_description']}}</span>
+        </div>
+    </div>
+<a href="">Attack</a>
+</div>
+{% endfor %}
+{%endif%}
+</div>
+<a href="{{url_for('main.attack', attackerID='ATTACKER_ID', defenderID='DEFENDER_ID')}}" class="battle-btn" id="fight">FIGHT</a>
+<h1>{{ randomUsername }}</h1>
+<div class="all-pokemon">
+{% if session['opponentPokeData'] %}
+{% for pokemon in session['opponentPokeData'] %}
+<div class="card-container" onclick="selectPokemon(event, '{{ pokemon['id']}}')">
+    <div>{{ pokemon['id'] }}</div>
+    <div class="card">
+        <div class="top">
+            <strong><p>{{pokemon['name']|capitalize}}</p></strong>
+            <p>{{pokemon['base_hp']}} HP</p>
+        </div>
+        <div class="img-container">
+            <img src="{{pokemon['sprite_img']}}" alt="Poke_Image" height="25">
+        </div>
+        <div class="stats">
+            <p class="attack">{{pokemon['base_attack']}} Att</p>
+            <p class="defence">{{pokemon['base_defence']}} Def</p>
+        </div>
+        <div class="ability">
+            <span class="ability-name"><strong>{{pokemon['ability_name']|capitalize}}:</strong> {{pokemon['ability_description']}}</span>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+{%endif%}
+</div>
+{% block scripts %}
+<script>
+let attackerId = null;
+function selectPokemon(event, pokemonId) {
+    if (attackerId === null) {
+        // Select attacker
+        attackerId = pokemonId;
+        console.log('attackerId :>> ', attackerId);
+        event.target.classList.add('attacker');
+    } else {
+        // Attack target
+        
+        attackPokemon(attackerId, pokemonId);
+        // Reset attacker selection
+        attackerId = null;
+        document.querySelectorAll('.card').forEach(card => card.classList.remove('attacker'));
+    }
+}
+
+function attackPokemon(attackerId, targetId) {
+    console.log('attackerId :>> ', attackerId);
+    console.log('targetId :>> ', targetId);
+    const fightAnchor = document.getElementById("fight");
+    fightAnchor.href = `/fight/${attackerId}/${targetId}`;
+
+        // Handle the response 
+    
+}
+</script>
+{% endblock %}
+
+{%endblock%}

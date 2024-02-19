@@ -1,33 +1,49 @@
 {% extends "base.html" %}
 
-{%block title%} Home {%endblock%}
+{%block title%} MyPokemon {%endblock%}
+
 
 {%block styles%}
-<link rel="stylesheet" href="../static//styles/home.css">
-<link rel="stylesheet" href="../static/styles/nav-bar.css">
-<link rel="stylesheet" href="../static/styles/base.css">
+<link rel="stylesheet" href="{{url_for('static', filename='styles/base.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="{{url_for('static', filename='styles/myPokemon.css')}}">
 {%endblock%}
+
 
 {%block content%}
 {% include './includes/nav-bar.html' %}
-{ for poke in pokemon %}
+<h1>{{username}}</h1>
+<div class="all-pokemon">
+    {% if allUserPokemon %}
+    {% for pokemon in allUserPokemon %}
     <div>
         <div class="card-container">
             <div class="card">
                 <div class="top">
-                    <h3>{{defaultInfo['name']|capitalize}}</h3>
-                    <p>{{defaultInfo['stats'][0]['base_stat']}} HP</p>
+                    <strong><p class="name">{{pokemon['name']|capitalize}}</p></strong>
+                    <p>{{pokemon['base_hp']}} HP</p>
                 </div>
                 <div class="img-container">
-                    <img src="{{defaultInfo['sprites']['versions']['generation-v']['black-white']['animated']['front_shiny']}}" alt="Poke_Image" height="25">
+                    <img src="{{pokemon['sprite_img']}}" alt="Poke_Image" height="25">
                 </div>
                 <div class="stats">
-                    <p class="attack">{{defaultInfo['stats'][1]['base_stat']}} Att</p>
-                    <p class="defence">{{defaultInfo['stats'][2]['base_stat']}} Def</p>
+                    <p class="attack">{{pokemon['base_attack']}} Att</p>
+                    <p class="defence">{{pokemon['base_defence']}} Def</p>
                 </div>
                 <div class="ability">
-                    <span class="ability-name"><strong>{{defaultInfo['abilities'][0]['ability']['name']|capitalize}}:</strong> {{abilityInfo['effect_entries'][1]['effect']}}</span>
+                    <span class="ability-name"><strong>{{pokemon['ability_name']|capitalize}}:</strong> {{pokemon['ability_description']}}</span>
                 </div>
             </div>
+            <a href="{{url_for('main.release', pokemonID=pokemon['id'])}}">Release</a>
+        </div>
     </div>
+{% endfor %}
+</div>
+<a href="{{url_for('main.battle')}}" class="battle-btn">BATTLE</a>
+{% else %}
+<p>No pokemon caught! Catch some <a href="{{url_for('main.getPokeInfo')}}">HERE</a></p>
+{%endif%}
+
+
+
 {%endblock%}
