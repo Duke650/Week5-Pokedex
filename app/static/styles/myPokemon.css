@@ -87,7 +87,11 @@ img {
     color: green;
 }
 
-.card.attacker {
+.attacker {
     background-color: blue !important;
-    padding: 40px;
+    border: 1px solid red;
 }
+
+/* .disabled {
+    color: grey !important;
+} */

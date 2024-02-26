@@ -144,8 +144,9 @@ def release(pokemonID):
 
 @main.route("/battle")
 def battle():
-    userCount = User.query.count()
-    randomUserID = random.randint(1, userCount)
+    allUsers = User.query.filter(User.id != current_user.id).all()
+    randomUserID = random.randint(1, len(allUsers))
+    print("RANDOM", randomUserID)
     randomUser = User.query.get(randomUserID)
     session['randomUserID'] = randomUserID
     
@@ -247,8 +248,8 @@ def attack(attackerID, defenderID):
         return redirect(url_for('main.battle'))
 
     print("ORIGINAL HP =>", defender['base_hp'])
-    defender['base_hp'] -= attacker['base_attack'] // defender['base_defence'] * 20
-    attacker['base_hp'] -= defender['base_attack'] // attacker['base_defence'] * 20
+    defender['base_hp'] -= attacker['base_attack'] // (defender['base_defence'] // 2) * 10
+    attacker['base_hp'] -= defender['base_attack'] // (attacker['base_defence'] // 2) * 10
     if defender['base_hp'] <= 0:
         opponentPokeData = [pokemon for pokemon in opponentPokeData if pokemon['id'] != defender['id']]
         print("NEW HP =>>", defender['base_hp'])

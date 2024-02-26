@@ -38,7 +38,7 @@
 {%endif%}
 
 </div>
-<a href="{{url_for('main.attack', attackerID='ATTACKER_ID', defenderID='DEFENDER_ID')}}" class="battle-btn" id="fight">FIGHT</a>
+<a href="" class="battle-btn" id="fight">FIGHT</a>
 <h1>{{ randomUsername }}</h1>
 <div class="all-pokemon">
 {% if allRandomUserPokemon %}
@@ -88,6 +88,12 @@ function attackPokemon(attackerId, targetId) {
     console.log('attackerId :>> ', attackerId);
     console.log('targetId :>> ', targetId);
     const fightAnchor = document.getElementById("fight");
+    if (!attackerId || !targetId) {
+        console.log('testing :>> ', testing);
+        fightAnchor.classList.add("disabled")
+        fightAnchor.href = ""
+    }
+    
     fightAnchor.href = `/attack/${attackerId}/${targetId}`;
 
         // Handle the response 
