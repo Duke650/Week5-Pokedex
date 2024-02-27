@@ -155,7 +155,6 @@ def battle():
     session['randomUsername'] = randomUsername
     if randomUser.id != current_user.id:
         randomUserPokemon = randomUser.pokemon.all()
-        
         allRandomUserPokemon = []
         for pokemon in randomUserPokemon:
             pokeObj = {
@@ -186,7 +185,7 @@ def battle():
             session['opponentPokeData'] = allRandomUserPokemon
             session['playerPokeData'] = allCurrentUserPokemon
         if allRandomUserPokemon and allCurrentUserPokemon:
-            return render_template("battle.html", allRandomUserPokemon=allRandomUserPokemon, allCurrentUserPokemon=allCurrentUserPokemon, randomUsername=randomUsername, currentUsername=currentUsername, randomUserID=randomUserID)
+            return render_template("currentFight.html", allRandomUserPokemon=allRandomUserPokemon, allCurrentUserPokemon=allCurrentUserPokemon, randomUsername=randomUsername, currentUsername=currentUsername, randomUserID=randomUserID)
 
     return redirect(url_for("main.my_pokemon"))
 
@@ -201,34 +200,12 @@ def getPokeInfoById(listOfPokemon, id):
 
     return f"cound not find pokemon with id of {id}"
 
-# def initilizeFight():
-#     # get all poke info
-#     if 'playerPokeData' not in session or 'opponentPokeData' not in session:
-#         print("POKEMON NOT IN SESSION!!!!!")
-#         randomUserID = session['randomUserID']
-#         playerSquad = current_user.pokemon.all()
-#         opponent = User.query.get(randomUserID)
-#         opponentSquad = opponent.pokemon.all()
-#         playerPokeData = []
-#         opponentPokeData = []
-#         for poke in playerSquad:
-#             playerPokeData.append({'id': poke.id, 'name':poke.name, 'base_hp': poke.base_hp, 'base_attack': poke.base_attack, 'base_defence': poke.base_defence, 'ability_name': poke.ability_name, 'ability_description': poke.ability_description, 'sprite_img': poke.sprite_img})
-        
-#         for poke in opponentSquad:
-#             print("OPPONENT POKEMON!!! ==>>>>>", poke)
-#             opponentPokeData.append({'id': poke.id, 'name': poke.name, 'base_hp': poke.base_hp, 'base_attack': poke.base_attack, 'base_defence': poke.base_defence, 'ability_name': poke.ability_name, 'ability_description': poke.ability_description, 'sprite_img': poke.sprite_img})
-
-#         session['playerPokeData'] = playerPokeData
-#         session['opponentPokeData'] = opponentPokeData
-#         return render_template("currentFight.html")
-#     else: 
-#         return "FALED TO START FIGHT"
-
-
-    # calulate changes
 
 @main.route("/attack/<attackerID>/<defenderID>")
 def attack(attackerID, defenderID):
+    # if not attackerID or not defenderID: 
+    #     flash("Please select a valid pokemon to attack", "success")
+    #     return redirect(url_for('main.battle'))
     playerPokeData = session['playerPokeData']
     opponentPokeData = session['opponentPokeData']
     mainUser = User.query.get(current_user.id)

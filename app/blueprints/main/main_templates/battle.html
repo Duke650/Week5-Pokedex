@@ -16,8 +16,8 @@
 <h1>{{currentUsername}}</h1>
 <div class="all-pokemon">
 {% for pokemon in allCurrentUserPokemon %}
-<div class="card-container" onclick="selectPokemon(event, '{{ pokemon['id']}}')">
-    <div class="card">
+<div class="my-card-container" onclick="selectPokemon(event, '{{ pokemon.id}}')">
+    <!-- <div class="my-card" id="{{pokemon.id}}" > -->
         <div class="top">
             <strong><p class="name">{{pokemon['name']|capitalize}}</p></strong>
             <p>{{pokemon['base_hp']}} HP</p>
@@ -31,7 +31,7 @@
         </div>
         <div class="ability">
             <span class="ability-name"><strong>{{pokemon['ability_name']|capitalize}}:</strong> {{pokemon['ability_description']}}</span>
-        </div>
+        <!-- </div> -->
     </div>
 </div>
 {% endfor %}
@@ -43,8 +43,8 @@
 <div class="all-pokemon">
 {% if allRandomUserPokemon %}
 {% for pokemon in allRandomUserPokemon %}
-<div class="card-container" onclick="selectPokemon(event, '{{ pokemon['id']}}')">
-    <div class="card">
+<div class="my-card-container" onclick="selectPokemon(event, '{{ pokemon.id}}')">
+    <!-- <div class="my-card" > -->
         <div class="top">
             <strong><p>{{pokemon['name']|capitalize}}</p></strong>
             <p>{{pokemon['base_hp']}} HP</p>
@@ -59,7 +59,7 @@
         <div class="ability">
             <span class="ability-name"><strong>{{pokemon['ability_name']|capitalize}}:</strong> {{pokemon['ability_description']}}</span>
         </div>
-    </div>
+    <!-- </div> -->
 </div>
 
 {% endfor %}
@@ -69,24 +69,39 @@
 <script>
 let attackerId = null;
 function selectPokemon(event, pokemonId) {
+    const card = document.getElementById(pokemonId);
+    console.log('pokemonId :>> ', pokemonId);
     if (attackerId === null) {
         // Select attacker
         attackerId = pokemonId;
-        console.log('attackerId :>> ', attackerId);
-        event.target.classList.add('attacker');
-    } else {
-        // Attack target
-        
-        attackPokemon(attackerId, pokemonId);
-        // Reset attacker selection
+        card.classList.add('attacker');
+    } else if (attackerId === pokemonId) {
+        // Deselect attacker
         attackerId = null;
-        document.querySelectorAll('.card').forEach(card => card.classList.remove('attacker'));
+    } else if (pokemonId && attackerId) {
+        // Attack another Pokemon
+        attackPokemon(attackerId, pokemonId);
+        attackerId = null; // Reset attacker selection
+    } else {
+        
     }
+    updateCardStyles();
+}
+
+function updateCardStyles() {
+    const cards = document.querySelectorAll('.my-card');
+    cards.forEach(card => {
+        if (card.id === attackerId) {
+            card.classList.add('attacker');
+        } else {
+            card.classList.remove('attacker');
+        }
+    });
 }
 
 function attackPokemon(attackerId, targetId) {
-    console.log('attackerId :>> ', attackerId);
-    console.log('targetId :>> ', targetId);
+    // console.log('attackerId :>> ', attackerId);
+    // console.log('targetId :>> ', targetId);
     const fightAnchor = document.getElementById("fight");
     if (!attackerId || !targetId) {
         console.log('testing :>> ', testing);

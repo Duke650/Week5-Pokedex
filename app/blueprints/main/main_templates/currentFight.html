@@ -16,8 +16,8 @@
 <h1>{{mainUsername}}</h1>
 <div class="all-pokemon">
 {% for pokemon in session['playerPokeData'] %}
-<div class="card-container" id={{pokemon.id}}>
-    <div class="card" onclick="selectPokemon(event, '{{ pokemon.id}}')">
+<div class="my-card-container" id={{pokemon.id}}>
+    <div class="my-card" onclick="selectPokemon(event, '{{ pokemon.id}}')">
         <div class="top">
             <strong><p class="name">{{pokemon['name']|capitalize}}</p></strong>
             <p>{{pokemon['base_hp']}} HP</p>
@@ -48,8 +48,8 @@
 <div class="all-pokemon">
 
 {% for pokemon in session['opponentPokeData'] %}
-<div class="card-container" onclick="selectPokemon(event, '{{ pokemon['id']}}')">
-    <div class="card">
+<div class="my-card-container" onclick="selectPokemon(event, '{{ pokemon.id }}')">
+    <div class="my-card">
         <div class="top">
             <strong><p>{{pokemon['name']|capitalize}}</p></strong>
             <p>{{pokemon['base_hp']}} HP</p>
@@ -87,7 +87,7 @@ function selectPokemon(event, pokemonId) {
         attackPokemon(attackerId, pokemonId);
         // Reset attacker selection
         attackerId = null;
-        document.querySelectorAll('.card-container').forEach(cardContainer => cardContainer.classList.remove('attacker'));
+        document.querySelectorAll('.my-card-container').forEach(cardContainer => cardContainer.classList.remove('attacker'));
     }
 }
 

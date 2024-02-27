@@ -1,3 +1,8 @@
+:root {
+    --card-background: #d3c2b8;
+    --selected-card-background: #b1a7a2;
+}
+
 .all-pokemon {
     display: flex;
     flex-wrap: wrap;
@@ -5,27 +10,26 @@
     gap: 2em;
 }
 
-.card {
-    border-radius: 0px !important;
-    padding: 20px;
-    background-color: #d3c2b8;
-    background-image: linear-gradient(62deg, #d3c2b8 0%, #ebe3d2 50%, #ffffff 100%) ;
-    border: 6px solid rgb(233, 183, 46) !important;
-    width: 200px;
-    display: flex;
-}
 
-.card-container a {
+.my-card-container a {
     margin: 0 auto;
 }
 
-.card-container {
+.my-card-container {
     display: flex;
-    justify-content: center;
     flex-direction: column;
-    margin-top: 2em;
+    background-color: var(--card-background);
+    border: 6px solid rgb(233, 183, 46) !important;
+    cursor: pointer;
+    border-radius: 0px !important;
+    padding: 20px;
+    width: 200px;
+    transition: transform 0.3s ease; /* Apply a smooth transition effect for the transform property */
 }
 
+.my-card-container:hover {
+    transform: scale(1.05); /* Slightly increase the size (5% larger) */
+}
 .top {
     display: flex;
     justify-content: space-between;
@@ -79,19 +83,17 @@ img {
     font-size: 20px;
 }
 
-.attacker {
-    background-color: red;
-}
-
 .winner {
     color: green;
-}
-
-.attacker {
-    background-color: blue !important;
-    border: 1px solid red;
 }
 
 /* .disabled {
     color: grey !important;
 } */
+
+.attacker {
+    background-color: var(--selected-card-background) !important;
+    transform: scale(1.1);
+    border: 6px solid rgb(233, 183, 46) !important;
+    transition: 200ms;
+}

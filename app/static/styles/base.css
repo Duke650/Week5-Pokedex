@@ -40,7 +40,7 @@ h1 {
 }
 
 .logout:hover {
-    color: rgba(252, 84, 84, 0.747);
+    color: rgba(255, 0, 0, 0.747) !important;
     transition: 300ms;
 }
 
